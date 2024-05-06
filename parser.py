@@ -7,7 +7,7 @@ class XMLParser:
         self.tree = None
 
     def parse(self):
-        self.tree = ET.parse(self.fileXml)
+        self.tree = ET.ElementTree(ET.fromstring(self.fileXml))
 
     def get_root(self):
         if self.tree is None:
