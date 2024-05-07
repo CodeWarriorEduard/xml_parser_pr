@@ -12,7 +12,7 @@ class XmlGui(customtkinter.CTk):
     def __init__(self):
         super().__init__()
         self.title("XML Parser")
-        self.geometry("1270x720")
+        self.geometry(f"1270x695+0+0")
         self.header = customtkinter.CTkFrame(self, fg_color=header_color)
         self.header.place(relx=0, rely=0, relwidth=1, relheight=0.2)
         header_text = "XML PARSER"
