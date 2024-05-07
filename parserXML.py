@@ -5,9 +5,15 @@ class XMLParser:
     def __init__(self, fileXml):
         self.fileXml = fileXml
         self.tree = None
+        self.error = None
 
     def parse(self):
-        self.tree = ET.ElementTree(ET.fromstring(self.fileXml))
+        try:
+            self.tree = ET.ElementTree(ET.fromstring(self.fileXml))
+        except ET.ParseError as e:
+            self.error = e
+            self.tree = None
+ 
 
     def get_root(self):
         if self.tree is None:
