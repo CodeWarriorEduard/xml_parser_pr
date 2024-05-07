@@ -8,6 +8,45 @@ print(dir)
 
 header_color = "#014955"
 
+
+#POLIMORFISMO
+##El polimorfismo usado es de tipo "Polimorfismo de subtipos", se aplica en el método createElement() 
+class elementsXMLGui:
+    def __init__(self, containerS, **kwargs):
+        self.containerS = containerS
+        self.element = None
+        self.createElement(**kwargs)
+
+    def createElement(self, **kwargs):
+        raise InterruptedError("Implement the createElement method in subclass")
+
+    def place(self,**kwargs):
+        self.element.place(**kwargs)
+    
+    def delete(self, *args):
+        if self.element is not None:
+            self.element.delete(*args)
+
+    def insert(self, index, *args):
+        if self.element is not None:
+            self.element.insert(index, *args)
+
+    def get(self, *args):
+        if self.element is not None:
+            return self.element.get(*args)
+
+class TextBox(elementsXMLGui):
+    def createElement(self, **kwargs):
+        self.element = customtkinter.CTkTextbox(self.containerS, **kwargs)
+class Label(elementsXMLGui):
+    def createElement(self, **kwargs):
+        self.element = customtkinter.CTkLabel(self.containerS, **kwargs)
+class Button(elementsXMLGui):
+    def createElement(self, **kwargs):
+        self.element = customtkinter.CTkButton(self.containerS, **kwargs)
+        
+#Aqui termina el polimorfismo 
+
 class XmlGui(customtkinter.CTk):
     def __init__(self):
         super().__init__()
@@ -22,30 +61,35 @@ class XmlGui(customtkinter.CTk):
         # Contenedor de inputs
         self.container = customtkinter.CTkFrame(self)
         self.container.place(relx=0, rely=0.2, relwidth=1, relheight=0.8)
+
+
         # Creacion de inputs
         #Input 1
-        self.input1 = customtkinter.CTkTextbox(self.container)
+        self.input1 = TextBox(self.container)
         self.input1.place(relx=0.05, rely=0.1, relwidth=0.4, relheight=0.6)
+        
         # Label Input 1
-        title_label1 = customtkinter.CTkLabel(self.container, text="Escribe tu XML Aquí:")
+        title_label1 = Label(self.container, text="Escribe tu XML Aquí:")
         title_label1.place(relx=0.05, rely=0.05, anchor="w")
+
         # Input 2
-        self.input2 = customtkinter.CTkTextbox(self.container)
+        self.input2 = TextBox(self.container)
         self.input2.place(relx=0.55, rely=0.1, relwidth=0.4, relheight=0.6)
+
         # Label Input 2
-        title_label1 = customtkinter.CTkLabel(self.container, text="Output:")
+        title_label1 = Label(self.container, text="Output:")
         title_label1.place(relx=0.55, rely=0.05, anchor="w")
 
         #Run button
-        self.button1 = customtkinter.CTkButton(self.container, text="Run", fg_color=header_color, command=self.getXmlnParse)
+        self.button1 = Button(self.container, text="Run", fg_color=header_color, command=self.getXmlnParse)
         self.button1.place(relx=0.25, rely=0.9, anchor="center")
 
         #Clear button
-        self.button2 = customtkinter.CTkButton(self.container, text="Clear inputs", fg_color=header_color, command=self.clearInputs)
+        self.button2 =Button(self.container, text="Clear inputs", fg_color=header_color, command=self.clearInputs)
         self.button2.place(relx=0.75, rely=0.9, anchor="center")
 
         #Select file button
-        self.button3 = customtkinter.CTkButton(self.container, text="Open XML file",fg_color=header_color, command=self.selectFile)
+        self.button3 = Button(self.container, text="Open XML file",fg_color=header_color, command=self.selectFile)
         self.button3.place(relx=0.50, rely=0.9, anchor="center")
 
     def selectFile(self):
